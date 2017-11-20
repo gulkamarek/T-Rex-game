@@ -15,7 +15,7 @@ function preload() {
 	imgTrex1 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino1.png');
 	imgTrex2 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino2.png');
 	imgTrex3 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino3.png');
-	imgMrex = loadImage(src='https://gulkamarek.github.io/T-Rex-game/M_Rex.png');
+	imgMrex = loadImage(src='https://gulkamarek.github.io/T-Rex-game/MRex.png');
 }
 
 /************ Setup block  ************/ 
@@ -58,12 +58,12 @@ function handelKey(){
 
 /************ initScreen ************/
 function initScreen(){
-	background(51);
+	background(0);
 	stroke(255);
 	fill(255);
 	textAlign(CENTER);
 	textSize(30);
-	text('T-Rex', width/2, height/2);
+	text('M-Rex', width/2, height/2);
 	textSize(15);
 	text('Press Space or UpArrow to start', width/2, height*0.65);
 	line(0,170,width, 170);
@@ -73,7 +73,7 @@ function initScreen(){
 }
 /************ playScreen ************/
 function playScreen(){
-	background(51);
+	background(0);
 	stroke(255);
 	fill(255);
 	text('Score: ' + ((performance.now()-gameStartTime)/1000).toFixed(2), 43, 20);
@@ -158,7 +158,7 @@ class Trex{
 			image(imgTrex3, this.x-18, this.y-26);
 		}
 		//image(imgAdd, this.x+transX+20, this.y-26-20);
-		image(imgMrex,this.x, this.y-70);
+		image(imgMrex,this.x+2, this.y-44 );
 		//rect(this.x, this.y-35, 30, 30);
 	}
 }
