@@ -68,6 +68,7 @@ function initScreen(){
 	text('Press Space or UpArrow to start', width/2, height*0.65);
 	line(0,170,width, 170);
 	gameStartTime = performance.now();
+	gameBackgroundGenerator();
 	
 }
 /************ playScreen ************/
@@ -80,7 +81,7 @@ function playScreen(){
 	trex.show();
 	trex.controlHeight();
 	obstaclesGenerator();
-	//gameBackgroundGenerator();
+	gameBackgroundGenerator();
 
 }
 /************ gameOverScreen ************/ 
@@ -144,8 +145,8 @@ class Trex{
 	}
 	
 	show(){
-		
-		ellipse(this.x,this.y,this.r*2);
+		// this is the ellipse for collision detection
+		//ellipse(this.x,this.y,this.r*2);
 		
 		if(this.onGround()){
 			if (ceil(performance.now()/100) % 2 == 0){
@@ -157,6 +158,7 @@ class Trex{
 			image(imgTrex3, this.x-18, this.y-26);
 		}
 		//image(imgAdd, this.x+transX+20, this.y-26-20);
+		rect(this.x, this.y-35, 30, 30);
 	}
 }
 
@@ -229,7 +231,7 @@ function obstaclesGenerator(){
 			screen = 2;
 		}
 		obstacles[i].show();
-		giveSpeed(obstacles[i]);
+		giveSpeed(obstacles[i],speed);
 		
 		if(obstacles[i].x < (0 - obstacles[i].obsWidth)){
 			// Deleting obticles that are behind the canvas
@@ -257,30 +259,35 @@ class BackgroungElement{
 	
 	show(){
 		fill(this.color);
-		rect(this.x, this.y, this.obsWidth, this.obsHeight);		
+		
+		for(var i=0; i< ceil(this.backElWidth/3); i++){
+			ellipse(this.x + i*7, this.y +7*(-1)*(i%-2), 15);
+		}
+		//rect(this.x, this.y, this.backElWidth, this.backElHeight);		
 	}
 }
 /************ game Background generator ************/ 
 function gameBackgroundGenerator(){
-	
-	for(var i = gameBackground.length-1; i>=0 ; i--){
+	//(var i = gameBackground.length-1; i>=0 ; i--)
+	for(var i=0; i<gameBackground.length; i++){
 		gameBackground[i].show();
-		giveSpeed(gameBackground[i]);
+		giveSpeed(gameBackground[i], speed/3);
 		
 		if(gameBackground[i].x < (0 - gameBackground[i].backElWidth)){
 			// Deleting obticles that are behind the canvas
 			gameBackground.splice(i,1);
 		}
+		
 	}
 	
 	if((timeToCreateBackgroung - performance.now()/1000) <= 0){
-		timeToCreateBackgroung = (performance.now()/1000 + random(0.5,2)).toFixed(1);
-		gameBackground.push(new BackgroungElement(ceil(random(10,30)), ceil(random(10,30)) ));
+		timeToCreateBackgroung = (performance.now()/1000 + random(2,4)).toFixed(1);
+		gameBackground.push(new BackgroungElement(ceil(random(10,18)), ceil(random(-20,10)) ));
 	}
 }
 
 
 /************ give speed to objects ************/ 
-function giveSpeed(object){
+function giveSpeed(object, speed){
 	object.x -= speed;
 }
