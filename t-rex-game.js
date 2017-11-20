@@ -15,7 +15,7 @@ function preload() {
 	imgTrex1 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino1.png');
 	imgTrex2 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino2.png');
 	imgTrex3 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino3.png');
-	imgAdd = loadImage(src='https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-1/p40x40/13900322_1056833324407169_5081905935619727462_n.jpg?oh=9be9e2f001a08f8281a2c6539cba21fb&oe=5A9FE660');
+	imgMrex = loadImage(src='https://gulkamarek.github.io/T-Rex-game/M_Rex.png');
 }
 
 /************ Setup block  ************/ 
@@ -158,7 +158,8 @@ class Trex{
 			image(imgTrex3, this.x-18, this.y-26);
 		}
 		//image(imgAdd, this.x+transX+20, this.y-26-20);
-		rect(this.x, this.y-35, 30, 30);
+		image(imgMrex,this.x, this.y-70);
+		//rect(this.x, this.y-35, 30, 30);
 	}
 }
 
