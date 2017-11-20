@@ -8,6 +8,7 @@ var gameBackground = [];
 var timeToCreate = 0;
 var timeToCreateBackgroung = 0;
 var gameStartTime;
+var levelFactor = 1
 
 // trex images
 var imgTrex1, imgTrex2, imgTrex3;
@@ -20,11 +21,15 @@ function preload() {
 
 /************ Setup block  ************/ 
 function setup(){
-	createCanvas(500, 200);
+	var cnv = createCanvas(500, 200);
+	var x = (windowWidth - width) / 2;
+	var y = (windowHeight - height) / 2;
+	cnv.position(x, y);
 }
 
 /************ Draw block  ************/ 
 function draw(){
+	
 	
 	if(screen == 0){
 		initScreen();
@@ -37,6 +42,10 @@ function draw(){
 	}
 	handelKey();
 	
+	line(0,0,0,height);
+	line(0,0,width,0);
+	line(width-1,0,width-1, height);
+	line(0,height-1, width, height-1);
 	
 }
 
@@ -76,12 +85,14 @@ function playScreen(){
 	background(0);
 	stroke(255);
 	fill(255);
-	text('Score: ' + ((performance.now()-gameStartTime)/1000).toFixed(2), 43, 20);
+	text('Score: ' + ((performance.now()-gameStartTime)/1000).toFixed(2), 46, 20);
+	levelFactor = 1/((1+(performance.now()-gameStartTime)/100000));
 	line(0,170,width, 170);
 	trex.show();
 	trex.controlHeight();
 	obstaclesGenerator();
 	gameBackgroundGenerator();
+	((performance.now()-gameStartTime)/10000)
 
 }
 /************ gameOverScreen ************/ 
@@ -104,9 +115,9 @@ class Trex{
 	constructor(){
 		this.x = 50;
 		this.y = 150;
-		this.r = 16;
-		this.initianVelYJump = 230; // choosen by trial and error method it was easier faster to create ths variable than to change the value in the loop 
-		this.acceleration = 600; // choosen by trial and error method
+		this.r = 15;
+		this.initianVelYJump = 300; // choosen by trial and error method it was easier faster to create ths variable than to change the value in the loop 
+		this.acceleration = 800; // choosen by trial and error method
 		this.velYJump = 0;
 	}
 	
@@ -146,7 +157,7 @@ class Trex{
 	
 	show(){
 		// this is the ellipse for collision detection
-		//ellipse(this.x,this.y,this.r*2);
+		// ellipse(this.x,this.y,this.r*2);
 		
 		if(this.onGround()){
 			if (ceil(performance.now()/100) % 2 == 0){
@@ -157,9 +168,7 @@ class Trex{
 		}else if (!this.onGround()){
 			image(imgTrex3, this.x-18, this.y-26);
 		}
-		//image(imgAdd, this.x+transX+20, this.y-26-20);
 		image(imgMrex,this.x+2, this.y-44 );
-		//rect(this.x, this.y-35, 30, 30);
 	}
 }
 
@@ -242,7 +251,7 @@ function obstaclesGenerator(){
 	
 	if((timeToCreate - performance.now()/1000) <= 0){
 		// Setting time of creating the next obsticle
-		timeToCreate = (performance.now()/1000 + random(0.5,2)).toFixed(1);
+		timeToCreate = (performance.now()/1000 + levelFactor*random(1,2)).toFixed(1);
 		// creating a new obsticle and pushing it to the array
 		obstacles.push(new Obstacle( ceil(random(10,30)), ceil(random(10,30)) ));
 	}
@@ -263,8 +272,7 @@ class BackgroungElement{
 		
 		for(var i=0; i< ceil(this.backElWidth/3); i++){
 			ellipse(this.x + i*7, this.y +7*(-1)*(i%-2), 15);
-		}
-		//rect(this.x, this.y, this.backElWidth, this.backElHeight);		
+		}	
 	}
 }
 /************ game Background generator ************/ 
@@ -274,7 +282,7 @@ function gameBackgroundGenerator(){
 		gameBackground[i].show();
 		giveSpeed(gameBackground[i], speed/3);
 		
-		if(gameBackground[i].x < (0 - gameBackground[i].backElWidth)){
+		if(gameBackground[i].x < (0 - gameBackground[i].backElWidth/3*7)){
 			// Deleting obticles that are behind the canvas
 			gameBackground.splice(i,1);
 		}
