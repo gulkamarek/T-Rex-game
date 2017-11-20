@@ -7,6 +7,12 @@ var obstacles = [];
 var timeToCreate = 0;
 var temporaryObstContainer ;
 
+// trex images
+var imgTrex1, imgTrex2;
+function preload() {
+	imgTrex1 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino1.png');
+	imgTrex2 = loadImage(src='https://gulkamarek.github.io/T-Rex-game/dino2.png');
+}
 
 /************ Setup block  ************/ 
 function setup(){
@@ -108,7 +114,14 @@ class Trex{
 	}
 	
 	show(){
-		ellipse(this.x,this.y,40);
+		if (ceil(performance.now()/100) % 2 == 0){
+			image(imgTrex1, this.x, this.y-26);
+			//trexRunner = 1;
+		}else{
+			image(imgTrex2, this.x, this.y-26);
+			//trexRunner = 0;
+		}
+		//ellipse(this.x,this.y,40);
 	}
 }
 
